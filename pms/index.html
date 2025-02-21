@@ -1,0 +1,23 @@
+<script>
+   var a=20;
+function f1(){
+  console.log(a); // ?
+  var a=1;
+  if(a == 1){
+    var a=90;
+  }
+  console.log(a); // ?
+}
+f1();
+
+/*
+var a; a= 20;
+function f1(){
+var a;
+console.log(a);
+a=1;   if( a== 1) {a=90} console.log(a); // 90
+}
+
+*/
+
+</script>
