@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, {
+    retries: 3,
+    retryDelay: () => 2000
+})
 function Product() {
     const [products, setProducts] = useState([])
     const [product, setProduct] = useState(
@@ -95,16 +101,27 @@ function Product() {
         })
     }
 
-    const fetchProducts = () => {
-        axios.get("http://localhost:5000/products").then((response) => {
-            console.log(response);
-            let productList = response.data;
-            setProducts(productList)
-        },
-            (error) => {
-                console.log(error);
-            })
+    const fetchProducts = async () => {
+        const response = await axios.get("http://localhost:5000/products");
+        if (response instanceof Error) {
+            console.log("Error occured");
+
+        } else {
+            setProducts(response.data);
+        }
+
     }
+
+    // const fetchProducts = () => {
+    //     axios.get("http://localhost:5000/products").then((response) => {
+    //         console.log(response);
+    //         let productList = response.data;
+    //         setProducts(productList)
+    //     },
+    //         (error) => {
+    //             console.log(error);
+    //         })
+    // }
     return (
         <div>
             <h1>Product Component</h1>
